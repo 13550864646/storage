@@ -9,19 +9,19 @@ import java.util.Map;
 /**
  * 智能终端运动信息数据javaBean
  */
-@Document(collection ="SportsData")
+@Document(collection = "SportsData")
 public class SportsData implements Serializable {
     private static final long serialVersionUID = 1L;
     private String appType;
     private String dataType;
     private String phone;
     private String collectDate;
-    private List<Map<String,String>> dataValue ;
+    private List<Map<String, String>> dataValue;
     private String deviceID;
-    private String sendFlag ;
+    private String sendFlag;
     private String company;
     private String teamName;
-    private String pname ;
+    private String pname;
 
 
     public String getAppType() {

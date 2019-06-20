@@ -1,5 +1,14 @@
 package com.cloud.storage.controller;
 
+import com.cloud.storage.base.Domain.SportsData;
+import com.cloud.storage.pattern.state.Context;
+import com.cloud.storage.service.ObservationService;
+import com.cloud.storage.service.PatientService;
+import com.cloud.storage.service.SportsDataService;
+import com.cloud.storage.util.JsonUtil;
+import com.cloud.storage.util.PropertiesReader;
+import com.cloud.storage.util.ResponseUtil;
+import com.cloud.storage.util.ValidateUtil;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +27,20 @@ public class CommonRestfulController {
     private ObservationService observationService;
     @Autowired
     private SportsDataService sportsDataService;
-    @Autowired
-    private SportsDataHbaseService sportsDataHbaseService;
+    //    @Autowired
+//    private SportsDataHbaseService sportsDataHbaseService;
     @Autowired
     private PatientService patientService;
 
     private static Logger log = Logger.getLogger(CommonRestfulController.class);
 
+    /**
+     * 数据采集接口
+     *
+     * @param request
+     * @param response
+     * @throws Exception
+     */
     @SuppressWarnings({"rawtypes", "unchecked"})
     @RequestMapping(value = "/businessDataReceive")
     public void businessDataReceive(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -51,7 +67,7 @@ public class CommonRestfulController {
             String isMysql = PropertiesReader.getProp("mysql");
             String isHbase = PropertiesReader.getProp("hbase");
             Map<String, Class> classMap = new HashMap<>();
-            classMap.put("dataValue ", HashMap.class);
+            classMap.put("dataValue", HashMap.class);
 //            入库mongodbJSONObject
             SportsData sportsData = (SportsData) JSONObject.toBean(JSONObject.fromObject(jsonData), SportsData.class, classMap);
             if ("true".equals(isMongo)) {
@@ -62,7 +78,7 @@ public class CommonRestfulController {
                 new Context(request, response, observationService, patientService).request();
             } else if ("true".equals(isHbase)) {
 //                入Hbase 库
-                sportsDataHbaseService.saveData(sportsData);
+//                sportsDataHbaseService.saveData(sportsData);
             }
         } else {
             response.setStatus(412);
